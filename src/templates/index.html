@@ -1,0 +1,36 @@
+<title>{{title}}</title>
+
+<style>
+    #wrapper{
+        text-align: center;
+    }
+</style>
+
+<div id="wrapper">
+    <h1>{{message}}</h1>
+    <h2>今日の日付: {{time}}</h2>
+
+    <form method="post">
+        {{ forms.csrf_token }}
+
+        {{ forms.learned.label }}<br>
+        {{ forms.learned }}<br>
+        {% for error in forms.learned.errors %}
+        <div>{{error}}</div>
+        {% endfor %}<br>
+
+        {{ forms.memo.label }}<br>
+        {{ forms.memo }}<br>
+        {% for error in forms.memo.errors %}
+        <div>{{error}}</div>
+        {% endfor %}<br>
+
+        {{ forms.submit }}
+        {{ forms.delete }}
+    </form>
+
+    </form>
+    
+        {{table|safe}}
+    
+</div>
