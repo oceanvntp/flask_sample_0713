@@ -25,6 +25,12 @@
         <div>{{error}}</div>
         {% endfor %}<br>
 
+        {{ forms.choice.label }}<br>
+        {{ forms.choice }}<br>
+        {% for error in forms.choice.errors %}
+        <div>{{error}}</div>
+        {% endfor %}<br>
+
         {{ forms.submit }}
         {{ forms.delete }}
     </form>

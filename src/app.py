@@ -1,6 +1,6 @@
 # 必要なモジュールのインポート
 from flask import Flask, render_template, request
-from wtforms import Form, StringField, validators, SubmitField
+from wtforms import Form, StringField, validators, SubmitField, SelectField
 import datetime
 from csv_controller import writeCSV, all_clearCSV
 import pandas as pd
@@ -13,9 +13,9 @@ app = Flask(__name__)
 class ProgForm(Form):
     learned = StringField('やったこと',[validators.InputRequired()])
     memo = StringField('メモ',[validators.InputRequired()])
-    # choice = SelectField('進み具合',
-    #                      validators=[validators.InputRequired()],
-    #                      choices=[('1', 'ぜんぜん')])
+    choice = SelectField('進み具合',
+                         validators=[validators.InputRequired()],
+                         choices=[('1', 'ぜんぜん')])
     
     submit = SubmitField('記録')
     delete = SubmitField('全消去')
@@ -45,6 +45,7 @@ def index():
     
     elif request.method == 'POST':
         if progForm.validate() == False:
+            record = pd.read_csv('src/record.csv', header=0)
             return render_template('index.html', title=title_, 
                                    message=message_, forms=progForm,
                                    time=time_, table=record.to_html(header='true'))
@@ -52,8 +53,9 @@ def index():
             if request.form.get('submit')=='記録':
                 str_Learned = str(progForm.learned.data)
                 str_memo = str(progForm.memo.data)
+                choice_ = str(progForm.coice.data)
                 writeCSV(year_, month_, day_,
-                        learned=str_Learned, memo=str_memo)
+                        learned=str_Learned, choice=choice_ memo=str_memo)
                 record = pd.read_csv('src/record.csv', header=0)
                 return render_template('index.html', title=title_, 
                                     message=message_, forms=progForm,
@@ -71,6 +73,3 @@ def index():
 # エントリーポイント
 if __name__ == '__main__':
     app.run(debug=True)
-    
-    
-    
