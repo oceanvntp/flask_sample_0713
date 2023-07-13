@@ -55,7 +55,7 @@ def index():
                 str_memo = str(progForm.memo.data)
                 choice_ = str(progForm.coice.data)
                 writeCSV(year_, month_, day_,
-                        learned=str_Learned, choice=choice_ memo=str_memo)
+                        learned=str_Learned, choice=choice_, memo=str_memo)
                 record = pd.read_csv('src/record.csv', header=0)
                 return render_template('index.html', title=title_, 
                                     message=message_, forms=progForm,
